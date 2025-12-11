@@ -1,0 +1,82 @@
+[
+    {
+        "id": 1,
+        "title": "Temiz Kod (Clean Code)",
+        "author": "Robert C. Martin",
+        "price": 185.00,
+        "image": "https://m.media-amazon.com/images/I/41-sN-mzwKL.jpg",
+        "category": "Yazılım"
+    },
+    {
+        "id": 2,
+        "title": "Yapay Zeka: Modern Yaklaşım",
+        "author": "Stuart Russell",
+        "price": 240.50,
+        "image": "https://m.media-amazon.com/images/I/81-NqL9qEEL._AC_UF1000,1000_QL80_.jpg",
+        "category": "Teknoloji"
+    },
+    {
+        "id": 3,
+        "title": "Simyacı",
+        "author": "Paulo Coelho",
+        "price": 85.00,
+        "image": "https://i.dr.com.tr/cache/600x600/0/0000000064038_1.jpg",
+        "category": "Edebiyat"
+    },
+    {
+        "id": 4,
+        "title": "JavaScript: The Good Parts",
+        "author": "Douglas Crockford",
+        "price": 120.00,
+        "image": "https://m.media-amazon.com/images/I/81kqrwS1nNL._AC_UF1000,1000_QL80_.jpg",
+        "category": "Yazılım"
+    },
+    {
+        "id": 5,
+        "title": "1984",
+        "author": "George Orwell",
+        "price": 60.00,
+        "image": "https://i.dr.com.tr/cache/600x600/0/0001921820087_1.jpg",
+        "category": "Edebiyat"
+    },
+    {
+        "id": 6,
+        "title": "Algoritmalar",
+        "author": "Robert Sedgewick",
+        "price": 210.00,
+        "image": "https://m.media-amazon.com/images/I/61Pgdn8Ys-L._AC_UF1000,1000_QL80_.jpg",
+        "category": "Yazılım"
+    },
+    {
+        "id": 7,
+        "title": "Sapiens",
+        "author": "Yuval Noah Harari",
+        "price": 150.00,
+        "image": "https://i.dr.com.tr/cache/600x600/0/0000000639943_1.jpg",
+        "category": "Tarih"
+    },
+    {
+        "id": 8,
+        "title": "Dune",
+        "author": "Frank Herbert",
+        "price": 195.00,
+        "image": "https://i.dr.com.tr/cache/600x600/0/0001928373001_1.jpg",
+        "category": "Bilim Kurgu"
+    },
+    {
+        "id": 9,
+        "title": "Head First Design Patterns",
+        "author": "Eric Freeman",
+        "price": 280.00,
+        "image": "https://m.media-amazon.com/images/I/81Ad2Gg82GL._AC_UF1000,1000_QL80_.jpg",
+        "category": "Yazılım"
+    },
+    {
+        "id": 10,
+        "title": "Suç ve Ceza",
+        "author": "Fyodor Dostoyevski",
+        "price": 90.00,
+        "image": "https://i.dr.com.tr/cache/600x600/0/0000000064031_1.jpg",
+        "category": "Klasik"
+    }
+]

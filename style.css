@@ -1,0 +1,99 @@
+/* Dosya adı: style.css */
+
+/* 1. GENEL SAYFA AYARLARI (BODY)
+   Sayfanın tamamını etkileyen temel kurallar burada tanımlanır.
+*/
+body {
+    font-family: sans-serif;    /* Yazı tipi: Tırnaksız, modern, okunaklı bir font kullan. */
+    background-color: #f0f2f5;  /* Arka plan rengi: Göz yormayan çok açık gri. */
+    margin: 0;                  /* SIFIRLAMA: Tarayıcının varsayılan kenar boşluklarını kaldır (Sayfa tam otursun). */
+    padding: 20px;              /* İçerik kenarlara yapışmasın diye her yönden 20px boşluk bırak. */
+}
+
+/* 2. ÜST KISIM (HEADER)
+   Başlık ve arama kutusunun durduğu alan.
+*/
+header {
+    text-align: center;      /* İçindeki her şeyi (Başlık, input, buton) ortala. */
+    margin-bottom: 30px;     /* Altındaki kitap listesiyle arasına 30px mesafe koy (Yapışık olmasın). */
+}
+
+/* 3. ARAMA KUTUSU (INPUT)
+   Yazı yazdığımız alanın makyajı.
+*/
+input {
+    padding: 10px;           /* Kutunun içindeki yazının kenarlara mesafesi (Yazı sıkışık durmasın). */
+    width: 250px;            /* Kutunun genişliği. */
+    border-radius: 5px;      /* Köşeleri hafif yuvarlat (Modern görünüm). */
+    border: 1px solid #ccc;  /* Çerçeve: 1 piksel kalınlığında, düz çizgi, gri renk. */
+}
+
+/* 4. BUTON TASARIMI
+   "Ara" butonunun şekli.
+*/
+button {
+    padding: 10px 20px;      /* Düğme boyutu: Üstten-alttan 10px, sağdan-soldan 20px genişlik ver. */
+    background-color: #3498db; /* Arka plan rengi: Mavi. */
+    color: white;            /* Yazı rengi: Beyaz. */
+    border: none;            /* Varsayılan çirkin siyah çerçeveyi kaldır. */
+    border-radius: 5px;      /* Köşeleri yuvarlat (Input ile uyumlu olsun). */
+    cursor: pointer;         /* Fare üzerine gelince imleç "El İşareti" olsun (Tıklanabilir hissi). */
+}
+
+/* ETKİLEŞİM (HOVER): Fare butonun üzerine gelince ne olsun? 
+*/
+button:hover {
+    background-color: #2980b9; /* Rengi biraz koyulaştır (Kullanıcıya tepki ver). */
+}
+
+/* 5. ANA RAF DÜZENİ (FLEXBOX KULLANIMI)
+   Kitapların dizileceği kutu. Burası çok önemli!
+*/
+#kitap-listesi {
+    display: flex;           /* ESNEK KUTU MODELİ: Elemanları yan yana dizmeye başla. */
+    flex-wrap: wrap;         /* Satıra sığmayanları bir alt satıra at (Bu olmazsa hepsi tek satıra sıkışır). */
+    justify-content: center; /* Kartları sayfanın tam ortasında hizala. */
+    gap: 20px;               /* Her bir kartın arasına 20px boşluk bırak (Birbirlerine değmesinler). */
+}
+
+/* 6. KİTAP KARTI (TEKİL KUTU)
+   Her bir kitabın kendi çerçevesi.
+*/
+.kitap-karti {
+    background: white;       /* Kartın rengi beyaz olsun (Sayfa gri olduğu için öne çıkar). */
+    width: 200px;            /* Her kartın genişliği sabit 200px olsun. */
+    border-radius: 8px;      /* Kartın köşelerini yuvarla. */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Hafif bir gölge ver (Derinlik hissi, havada duruyormuş gibi). */
+    padding: 10px;           /* Kartın içindeki yazı ve resim kenarlara yapışmasın. */
+    
+    /* Kartın iç düzeni */
+    display: flex;           /* Kartın içindekileri de esnek yap. */
+    flex-direction: column;  /* Ama yan yana değil, ALT ALTA diz (Resim üstte, başlık altta). */
+    text-align: center;      /* Yazıları ortala. */
+}
+
+/* 7. KİTAP RESMİ
+*/
+.kitap-karti img {
+    width: 100%;             /* Resim, kartın genişliği neyse (200px) tamamını kaplasın. */
+    height: 250px;           /* Tüm resimlerin boyu eşit olsun (Düzen bozulmasın diye sabitliyoruz). */
+    object-fit: cover;       /* ÇOK ÖNEMLİ: Resmi kutuya sığdırırken ezip büzme, gerekirse kenarlardan kırp. */
+    border-radius: 4px;      /* Resmin köşelerini de hafif yuvarla. */
+}
+
+/* 8. KİTAP BAŞLIĞI
+*/
+.kitap-karti h3 {
+    font-size: 16px;         /* Yazı boyutu. */
+    margin: 10px 0;          /* Başlığın altına ve üstüne boşluk bırak. */
+    color: #333;             /* Koyu gri yazı rengi (Siyah (#000) bazen çok sert durur). */
+}
+
+/* 9. FİYAT ETİKETİ
+*/
+.fiyat {
+    color: green;            /* Fiyat yeşil olsun (Dikkat çeksin). */
+    font-weight: bold;       /* Yazı kalın olsun. */
+    margin-top: auto;        /* SİHİRLİ KOD: Flex yapısında bu elemanı en alta itekle.
+                                Başlık kısa da olsa uzun da olsa fiyat hep kartın en dibinde durur. */
+}
