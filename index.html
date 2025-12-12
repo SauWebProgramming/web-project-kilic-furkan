@@ -1,314 +1,47 @@
 <!DOCTYPE html>
-<html lang="tr"> <head>
+<html lang="tr">
+<head>
     <meta charset="UTF-8">
-    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitap Dünyası</title>
     
-    <title>Öğretici Kitap Arama Motoru</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    
-    <style>
-        /* :root -> Değişken Tanımlama
-           NEDEN: Renkleri tek bir yerden yönetmek için.
-           Maviyi değiştirmek istersen sadece burayı değiştirmen yeterli. */
-        :root {
-            --primary-color: #4a90e2; /* Ana renk (Mavi) */
-            --bg-color: #f8f9fa;      /* Arka plan rengi (Açık Gri) */
-            --card-bg: #ffffff;       /* Kart rengi (Beyaz) */
-            --text-dark: #333333;     /* Koyu yazı rengi */
-            --text-light: #666666;    /* Açık yazı rengi */
-        }
-
-        /* Sayfanın geneli için ayarlar */
-        body {
-            font-family: 'Poppins', sans-serif; /* Yüklediğimiz yazı tipini kullan */
-            background-color: var(--bg-color);  /* Yukarıdaki değişkeni kullan */
-            margin: 0;  /* Tarayıcının varsayılan kenar boşluklarını sıfırla */
-            padding: 0;
-            color: var(--text-dark);
-        }
-
-        /* HEADER: Üst Menü Çubuğu */
-        header {
-            background-color: #2c3e50; /* Koyu lacivert */
-            color: white;              /* Yazılar beyaz */
-            padding: 20px 0;           /* Üstten-alttan 20px boşluk */
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Altına hafif gölge at */
-            position: sticky; /* Sayfa aşağı kaysa bile... */
-            top: 0;           /* ...bu menü en tepede yapışık kalsın. */
-            z-index: 100;     /* Diğer her şeyin üstünde görünsün (Katman sırası) */
-        }
-
-        /* CONTAINER: İçerik Kutusu
-           NEDEN: İçerikler ekranın en sağına-soluna yapışmasın, ortada dursun. */
-        .container {
-            max-width: 1200px; /* En fazla 1200px genişle */
-            margin: 0 auto;    /* Ortala (Sağ ve sol boşluklar eşit olsun) */
-            padding: 0 20px;   /* İçerikten kenarlara 20px pay bırak */
-            display: flex;     /* Flexbox: İçindekileri yan yana diz */
-            justify-content: space-between; /* Birini sola, birini sağa it */
-            align-items: center; /* Dikey olarak ortala */
-            flex-wrap: wrap;   /* Ekrana sığmazsa alt satıra geç */
-        }
-
-        h1 { margin: 0; font-size: 24px; } /* Başlık ayarı */
-
-        /* Arama Kutusu Alanı */
-        .search-box {
-            display: flex; /* Kutu ve butonu yan yana koy */
-            gap: 10px;     /* Aralarına 10px boşluk bırak */
-        }
-
-        /* Yazı yazdığımız kutu (Input) */
-        input[type="text"] {
-            padding: 10px 15px;    /* İç boşluk */
-            border-radius: 20px;   /* Köşeleri yuvarla */
-            border: none;          /* Çerçeveyi kaldır */
-            outline: none;         /* Tıklayınca çıkan mavi çizgiyi kaldır */
-            width: 250px;          /* Genişlik */
-            font-family: inherit;  /* Sayfanın yazı tipini miras al */
-        }
-
-        /* ARA Butonu */
-        button {
-            padding: 10px 20px;
-            background-color: var(--primary-color); /* Mavi */
-            color: white;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;        /* Üzerine gelince el işareti çıksın */
-            font-weight: 600;       /* Yazı kalınlığı */
-            transition: background 0.3s; /* Renk değişimi yumuşak olsun */
-        }
-
-        /* Hover: Fare üzerine gelince ne olsun? */
-        button:hover { background-color: #357abd; /* Rengi koyulaştır */ }
-
-        /* LOADER: Dönen Yükleme Halkası */
-        .loader {
-            border: 5px solid #f3f3f3; /* Gri çember */
-            border-top: 5px solid var(--primary-color); /* Üst kısmı mavi */
-            border-radius: 50%; /* Tam yuvarlak yap */
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite; /* Dönme animasyonunu başlat */
-            margin: 50px auto; /* Ortala */
-            display: none;     /* BAŞLANGIÇTA GİZLE (JS ile göstereceğiz) */
-        }
-
-        /* Dönme Animasyonunun Tarifi */
-        @keyframes spin { 
-            0% { transform: rotate(0deg); }   /* Başlangıç: 0 derece */
-            100% { transform: rotate(360deg); } /* Bitiş: 360 derece (Tam tur) */
-        }
-
-        /* IZGARA SİSTEMİ (GRID) - En Kritik CSS Kısmı */
-        #kitap-listesi {
-            display: grid; /* Izgara düzenini aç */
-            /* Sihirli Kod: Ekrana kaç tane 220px sığarsa o kadar sütun oluştur */
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
-            gap: 25px;      /* Kartlar arası boşluk */
-            padding: 40px 0;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* KİTAP KARTI TASARIMI */
-        .kitap-karti {
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden; /* Karttan taşan resim kısımlarını gizle */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Gölge ver */
-            transition: transform 0.3s; /* Hareket efekti süresi */
-            display: flex;
-            flex-direction: column; /* İçindekileri alt alta diz */
-        }
-
-        /* Fare karta gelince kart yukarı zıplasın */
-        .kitap-karti:hover {
-            transform: translateY(-10px); /* 10px yukarı git */
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15); /* Gölgeyi büyüt */
-        }
-
-        /* Resim Alanı */
-        .img-container {
-            height: 280px; /* Sabit yükseklik */
-            background-color: #eee;
-            overflow: hidden;
-        }
-
-        .kitap-karti img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Resmi kutuya sığdır ama ezilip büzülmesin (Crop yap) */
-            transition: transform 0.5s;
-        }
-        
-        /* Resmin üzerine gelince hafif büyüsün (Zoom etkisi) */
-        .kitap-karti:hover img { transform: scale(1.05); }
-
-        /* Kart İçeriği */
-        .content {
-            padding: 20px;
-            flex-grow: 1; /* Kartın altındaki boşluğu doldur */
-            display: flex;
-            flex-direction: column;
-        }
-
-        .title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 5px;
-            /* Yazı çok uzunsa 2 satırda kesip "..." koyma kodu */
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .author {
-            font-size: 14px;
-            color: var(--text-light);
-            margin-bottom: 15px;
-        }
-
-        .price-tag {
-            font-size: 18px;
-            font-weight: bold;
-            color: #27ae60; /* Yeşil fiyat rengi */
-            margin-top: auto; /* Fiyatı en alta it */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* İncele Butonu */
-        .btn-incele {
-            font-size: 12px;
-            text-decoration: none; /* Alt çizgiyi kaldır */
-            background-color: #eee;
-            color: #333;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-        
-        .btn-incele:hover { background-color: #ddd; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+
     <header>
-        <div class="container">
-            <h1>📚 Kitap Dünyası</h1>
-            <div class="search-box">
-                <input type="text" id="aramaInput" placeholder="Kitap veya yazar ara..." value="Yapay Zeka">
-                
-                <button onclick="aramayiBaslat()">ARA</button>
-            </div>
+        <h1>📚 Kitap Dünyası</h1>
+        <div class="search-box">
+            <input type="text" id="aramaInput" placeholder="Kitap ara..." value="">
+            <button onclick="aramayiBaslat()">ARA</button>
         </div>
     </header>
 
-    <div id="loader" class="loader"></div>
+    <div id="loader" style="display:none; text-align:center;">Yükleniyor...</div>
 
-    <div id="kitap-listesi" class="container"></div>
+    <div id="kitap-listesi"></div>
 
-
-    <script>
-        // DOMContentLoaded: "Sayfa tamamen yüklendiğinde bu kodu çalıştır"
-        // Neden: Sayfa yüklenmeden elemanları aramaya kalkmayalım diye.
-        document.addEventListener('DOMContentLoaded', () => {
-            aramayiBaslat(); // Sayfa açılır açılmaz varsayılan aramayı yap
-        });
-
-        // Klavye olayını dinle: Kullanıcı "Enter" tuşuna bastı mı?
-        document.getElementById("aramaInput").addEventListener("keyup", function(event) {
-            if (event.key === "Enter") {
-                aramayiBaslat(); // Evet bastı, aramayı başlat
-            }
-        });
-
-        // ASYNC: Bu fonksiyon internetten veri çekeceği için "Asenkron" (Beklemeli) çalışır.
-        async function aramayiBaslat() {
+    <div id="detay-modal" class="modal">
+        <div class="modal-icerik">
             
-            // 1. ADIM: HTML'deki elemanları seçip değişkenlere atıyoruz
-            const inputVal = document.getElementById('aramaInput').value; // Yazılan metni al
-            const listeDiv = document.getElementById('kitap-listesi');    // Rafı seç
-            const loader = document.getElementById('loader');             // Yükleniyor simgesini seç
+            <span class="kapat-btn" onclick="modalKapat()">&times;</span>
 
-            if (!inputVal) return; // Eğer kutu boşsa hiçbir şey yapma, dur.
-
-            // 2. ADIM: Temizlik ve Hazırlık
-            listeDiv.innerHTML = "";      // Eski kitapları temizle
-            loader.style.display = "block"; // Dönme animasyonunu görünür yap
-
-            // 3. ADIM: API Adresini Hazırla
-            // q=inputVal -> Kullanıcının yazdığı kelimeyi Google'a gönderiyoruz
-            const url = `https://www.googleapis.com/books/v1/volumes?q=${inputVal}&maxResults=12&langRestrict=tr`;
-
-            try {
-                // 4. ADIM: İSTEK GÖNDERME (FETCH)
-                // await: "Google cevap verene kadar burada dur, aşağıya inme"
-                const response = await fetch(url);
+            <div class="modal-flex">
+                <img id="modal-resim" src="" alt="Kapak">
                 
-                // 5. ADIM: PAKETİ AÇMA (JSON)
-                // Gelen ham veriyi JavaScript'in anlayacağı şekle çevir
-                const data = await response.json();
+                <div class="modal-bilgi">
+                    <h2 id="modal-baslik"></h2>
+                    <h4 id="modal-yazar"></h4>
+                    <p id="modal-kategori"></p>
+                    <p id="modal-aciklama"></p>
+                    <p id="modal-fiyat" class="fiyat"></p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                // Veri geldi, artık loader'ı gizleyebiliriz
-                loader.style.display = "none";
+    <script src="script.js"></script>
 
-                // Eğer hiç kitap bulunamadıysa uyarı ver
-                if (!data.items) {
-                    listeDiv.innerHTML = "<h3 style='text-align:center; width:100%;'>Üzgünüz, kitap bulunamadı.</h3>";
-                    return;
-                }
-
-                // 6. ADIM: DÖNGÜ (HER KİTAP İÇİN)
-                // Gelen 12 kitabın her biri için bu süslü parantez içindekileri yap
-                data.items.forEach(kitap => {
-                    const info = kitap.volumeInfo; // Kitap bilgilerini 'info'ya ata
-                    
-                    // Veri Güvenliği: Bazen resim veya yazar eksik olabilir.
-                    // Resim varsa al, YOKSA (||) varsayılan gri resmi kullan.
-                    const resim = info.imageLinks?.thumbnail || "https://via.placeholder.com/200x300?text=Kapak+Yok";
-                    const baslik = info.title;
-                    // Yazarlar liste gelir, join ile virgülle birleştir
-                    const yazar = info.authors ? info.authors.join(", ") : "Yazar Bilinmiyor";
-                    
-                    // Simülasyon: Google fiyat vermez, rastgele fiyat uyduruyoruz
-                    const fiyat = (Math.random() * 200 + 40).toFixed(2); 
-
-                    // 7. ADIM: KART OLUŞTURMA (TEMPLATE LITERAL)
-                    // Backtick (``) işareti ile HTML şablonu içine değişkenleri (${}) gömüyoruz.
-                    const kart = `
-                        <div class="kitap-karti">
-                            <div class="img-container">
-                                <img src="${resim}" alt="${baslik}">
-                            </div>
-                            <div class="content">
-                                <div class="title">${baslik}</div>
-                                <div class="author">${yazar}</div>
-                                <div class="price-tag">
-                                    ${fiyat} ₺
-                                    <a href="${info.previewLink}" target="_blank" class="btn-incele">İncele</a>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    
-                    // 8. ADIM: RAFA EKLEME
-                    // Oluşturulan kartı HTML sayfasındaki div'in içine ekle
-                    listeDiv.innerHTML += kart;
-                });
-
-            } catch (error) {
-                // HATA YÖNETİMİ: İnternet kesilirse burası çalışır
-                console.error(error); // Hatayı geliştirici konsoluna yaz
-                loader.style.display = "none"; // Loader'ı gizle
-                listeDiv.innerHTML = "<h3>Bir hata oluştu. İnternet bağlantınızı kontrol edin.</h3>";
-            }
-        }
-    </script>
 </body>
 </html>
