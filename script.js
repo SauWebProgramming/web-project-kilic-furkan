@@ -1,36 +1,114 @@
-// --- GLOBAL DEĞİŞKENLER ---
-// Tüm kitapları burada tutacağız.
 let globalKitaplar = []; 
+let secilenKitapId = null;
 
-// YENİ: Hangi kitabın detayına baktığımızı burada tutacağız.
-// C#'taki "currentSelectedID" gibi düşün.
-let secilenKitapId = null; 
-
-// --- SAYFA YÜKLENİNCE ---
 document.addEventListener('DOMContentLoaded', () => {
-    kitaplariGetir(); // Verileri çek
+    kitaplariGetir(); 
+    forumuYukle(); 
+    
+    // DÜZELTME: Başlangıçta Forum Sayfası Açılsın
+    sayfaDegistir('forum');
 });
 
-// --- HTML ELEMANLARINI SEÇME ---
 const listeDiv = document.getElementById('kitap-listesi');
 const aramaInput = document.getElementById('aramaInput');
 const modal = document.getElementById('detay-modal');
 const loader = document.getElementById('loader');
 const listeBaslik = document.getElementById('liste-baslik');
 
-// --- 1. VERİ ÇEKME FONKSİYONU ---
+// --- SAYFA GEÇİŞ SİSTEMİ ---
+function sayfaDegistir(sayfaAdi) {
+    // Sayfaları gizle
+    document.getElementById('magaza-sayfasi').classList.add('gizli');
+    document.getElementById('forum-sayfasi').classList.add('gizli');
+
+    // Butonların aktifliğini sil
+    document.getElementById('btn-magaza').classList.remove('aktif');
+    document.getElementById('btn-forum').classList.remove('aktif');
+
+    // İstenen sayfayı aç
+    if (sayfaAdi === 'magaza') {
+        document.getElementById('magaza-sayfasi').classList.remove('gizli');
+        document.getElementById('btn-magaza').classList.add('aktif');
+    } else if (sayfaAdi === 'forum') {
+        document.getElementById('forum-sayfasi').classList.remove('gizli');
+        document.getElementById('btn-forum').classList.add('aktif');
+    }
+}
+
+// --- MAĞAZA SIFIRLAMA (FAVORİLERDEN ÇIKIŞ) ---
+// Bu fonksiyon "Mağaza" butonuna basınca çalışır.
+// Favori filtresini kaldırır ve tüm kitapları geri getirir.
+function magazayiSifirlaVeAc() {
+    // 1. Arama kutusunu temizle
+    aramaInput.value = "";
+    // 2. Başlığı gizle (Favorilerim yazısını kaldır)
+    listeBaslik.style.display = "none";
+    // 3. Tüm listeyi yeniden bas
+    listeyiEkranaBas(globalKitaplar);
+    // 4. Mağaza sayfasına geç
+    sayfaDegistir('magaza');
+}
+
+// --- FORUM VERİLERİ (Sahte Veri) ---
+// bookId: Bu konunun hangi kitapla ilgili olduğunu belirtir (Mağazaya yönlendirmek için)
+const forumVerileri = [
+    { id: 1, bookId: 10, user: "Elif Kitapkurdu", title: "Dostoyevski'ye Hangi Kitapla Başlanmalı?", body: "Rus edebiyatına girmek istiyorum ama Suç ve Ceza çok mu ağır olur? Önerilerinizi bekliyorum.", likes: 45, comments: 12, time: "2 saat önce" },
+    { id: 2, bookId: 8, user: "BilimKurgu Sever", title: "Dune Filmi Kitabın Hakkını Verdi mi?", body: "Kitabı 3 kere okudum, film görsel olarak harika ama içsel monologlar eksik gibi geldi. Siz ne düşünüyorsunuz?", likes: 120, comments: 84, time: "5 saat önce" },
+    { id: 3, bookId: 7, user: "Tarihçi_Bey", title: "Sapiens Kitabı Hakkında Düşünceler", body: "Yuval Noah Harari'nin tespitleri çok çarpıcı ama bazı kısımları fazla spekülatif buldum. Okuyan var mı?", likes: 89, comments: 5, time: "1 gün önce" },
+    { id: 4, bookId: 3, user: "Roman Okuru", title: "Simyacı neden bu kadar abartılıyor?", body: "Kitabı okudum, güzel bir masal ama 'hayat değiştiren kitap' yorumlarını abartılı buldum.", likes: 34, comments: 42, time: "3 gün önce" }
+];
+
+function forumuYukle() {
+    const forumDiv = document.getElementById('forum-akisi');
+    forumDiv.innerHTML = "";
+
+    forumVerileri.forEach(post => {
+        const basHarf = post.user.charAt(0);
+        
+        // DÜZELTME: onclick olayını tüm karta değil, sadece butona verdik.
+        const postHTML = `
+            <div class="forum-post">
+                <div class="post-header">
+                    <div class="avatar">${basHarf}</div>
+                    <div>
+                        <div class="user-name">${post.user}</div>
+                        <div class="post-time">${post.time}</div>
+                    </div>
+                </div>
+                <div class="post-title">${post.title}</div>
+                <div class="post-content">${post.body}</div>
+                <div class="post-footer">
+                    <div class="stat"><span class="material-icons" style="font-size:16px">thumb_up</span> ${post.likes}</div>
+                    <div class="stat"><span class="material-icons" style="font-size:16px">mode_comment</span> ${post.comments}</div>
+                    
+                    <button class="btn-konu-git" onclick="magazayaGitVeAc(${post.bookId})">
+                        📖 Kitabı İncele
+                    </button>
+                </div>
+            </div>
+        `;
+        forumDiv.innerHTML += postHTML;
+    });
+}
+
+// --- MAĞAZAYA GİT VE DETAY AÇ ---
+function magazayaGitVeAc(id) {
+    magazayiSifirlaVeAc(); // Önce mağazayı aç ve listeyi düzelt
+    
+    // Küçük bir gecikme ile detayı aç (Listenin yüklenmesi için)
+    setTimeout(() => {
+        detayAc(id);
+    }, 100);
+}
+
+// --- VERİ ÇEKME ---
 async function kitaplariGetir() {
-    loader.style.display = "block"; // Yükleniyor...
+    loader.style.display = "block";
     try {
-        // Dosyadan veriyi oku
         const cevap = await fetch('kitaplar.json');
         globalKitaplar = await cevap.json();
-        
         loader.style.display = "none";
-        
-        // İlk açılışta tüm listeyi göster
         listeyiEkranaBas(globalKitaplar);
-
     } catch (hata) {
         console.error(hata);
         loader.style.display = "none";
@@ -38,19 +116,11 @@ async function kitaplariGetir() {
     }
 }
 
-// --- 2. LİSTEYİ EKRANA BASMA (ORTAK FONKSİYON) ---
-// Bu fonksiyonu C#'taki "DataGridView.DataSource = liste" gibi düşün.
-// Hangi listeyi verirsek (tüm kitaplar veya favoriler) onu ekrana çizer.
 function listeyiEkranaBas(kitapListesi) {
-    listeDiv.innerHTML = ""; // Önce ekranı temizle
-
-    // Liste boşsa uyarı ver
+    listeDiv.innerHTML = "";
     if (kitapListesi.length === 0) {
-        listeDiv.innerHTML = "<h3>Kitap bulunamadı.</h3>";
-        return;
+        listeDiv.innerHTML = "<h3>Kitap bulunamadı.</h3>"; return;
     }
-
-    // Listeyi dön ve kartları oluştur
     kitapListesi.forEach(kitap => {
         const kart = `
             <div class="kitap-karti">
@@ -64,106 +134,61 @@ function listeyiEkranaBas(kitapListesi) {
     });
 }
 
-// --- 3. ARAMA YAPMA ---
+// --- ARAMA ---
 function aramayiBaslat() {
-    listeBaslik.style.display = "none"; // "Favoriler" başlığını gizle
-    const aranan = aramaInput.value.toLowerCase(); // Küçük harfe çevir
-    
-    // Filtreleme (Contains mantığı)
-    const sonuc = globalKitaplar.filter(k => 
-        k.title.toLowerCase().includes(aranan) || 
-        k.author.toLowerCase().includes(aranan)
-    );
-    
-    // Sonuçları ekrana bas
+    listeBaslik.style.display = "none";
+    const aranan = aramaInput.value.toLowerCase();
+    const sonuc = globalKitaplar.filter(k => k.title.toLowerCase().includes(aranan) || k.author.toLowerCase().includes(aranan));
     listeyiEkranaBas(sonuc);
 }
 
-// --- 4. FAVORİLERİ GÖSTERME (BUTONA BASINCA) ---
+// --- FAVORİLERİ GÖSTER ---
 function favorileriGoster() {
-    // 1. Tarayıcı Hafızasından (LocalStorage) favori ID'lerini oku.
-    // JSON.parse: Hafızadaki metni tekrar listeye çevirir.
-    // || [] : Eğer hafıza boşsa hata verme, boş liste kabul et.
+    sayfaDegistir('magaza'); // Mağazaya geç
     const favoriIdleri = JSON.parse(localStorage.getItem('favoriler')) || [];
-
-    // 2. Global listeden, sadece ID'si favorilerde olanları süz.
     const favoriKitaplar = globalKitaplar.filter(kitap => favoriIdleri.includes(kitap.id));
-
-    // 3. Başlığı göster ve listeyi bas
+    
     listeBaslik.innerText = "⭐ Favori Kitaplarım";
     listeBaslik.style.display = "block";
     listeyiEkranaBas(favoriKitaplar);
 }
 
-// --- 5. DETAY PENCERESİNİ AÇMA (MODAL) ---
+// --- MODAL ---
 function detayAc(id) {
-    // Tıklanan kitabı global değişkene kaydet (Sonra favoriye eklerken lazım olacak)
-    secilenKitapId = id; 
-
-    // ID'si eşleşen kitabı bul
+    secilenKitapId = id;
     const kitap = globalKitaplar.find(k => k.id === id);
-
     if (kitap) {
-        // Modalın içini doldur
         document.getElementById('modal-resim').src = kitap.image;
         document.getElementById('modal-baslik').innerText = kitap.title;
         document.getElementById('modal-yazar').innerText = kitap.author;
         document.getElementById('modal-kategori').innerText = kitap.category;
         document.getElementById('modal-aciklama').innerText = kitap.desc;
         document.getElementById('modal-fiyat').innerText = kitap.price + " ₺";
-        
-        // BUTON KONTROLÜ: Bu kitap zaten favoride mi?
-        // Eğer favorideyse butonu kırmızı yap, değilse beyaz yap.
         butonDurumunuGuncelle();
-
-        // Pencereyi görünür yap
         modal.style.display = "block";
     }
 }
 
-// --- 6. FAVORİ EKLEME / ÇIKARMA İŞLEMİ ---
 function favoriIslemi() {
-    // 1. Mevcut favori listesini hafızadan çek
     let favoriler = JSON.parse(localStorage.getItem('favoriler')) || [];
-
-    // 2. Bu kitap zaten listede var mı?
     if (favoriler.includes(secilenKitapId)) {
-        // VARSA: Listeden çıkar (Filter ile bu ID hariç diğerlerini al)
         favoriler = favoriler.filter(id => id !== secilenKitapId);
-    } else {
-        // YOKSA: Listeye ekle (Push)
-        favoriler.push(secilenKitapId);
-    }
-
-    // 3. Güncel listeyi tekrar hafızaya (LocalStorage) kaydet.
-    // JSON.stringify: Listeyi metne çevirir (Hafıza sadece metin tutar).
+    } else { favoriler.push(secilenKitapId); }
     localStorage.setItem('favoriler', JSON.stringify(favoriler));
-
-    // 4. Butonun rengini ve yazısını güncelle
     butonDurumunuGuncelle();
 }
 
-// --- YARDIMCI: BUTON GÖRÜNÜMÜNÜ AYARLA ---
 function butonDurumunuGuncelle() {
     const btn = document.getElementById('modal-fav-btn');
-    // Hafızayı kontrol et
     const favoriler = JSON.parse(localStorage.getItem('favoriler')) || [];
-
-    // Eğer şu anki kitap favorilerde varsa...
     if (favoriler.includes(secilenKitapId)) {
-        // Butonu KIRMIZI ve "Çıkar" yap
         btn.innerHTML = '<span class="material-icons">favorite</span> Favorilerden Çıkar';
-        btn.style.backgroundColor = "#e74c3c";
-        btn.style.color = "white";
+        btn.style.backgroundColor = "#e74c3c"; btn.style.color = "white";
     } else {
-        // Yoksa BEYAZ ve "Ekle" yap
         btn.innerHTML = '<span class="material-icons">favorite_border</span> Favorilere Ekle';
-        btn.style.backgroundColor = "white";
-        btn.style.color = "#e74c3c";
+        btn.style.backgroundColor = "white"; btn.style.color = "#e74c3c";
     }
 }
 
-// --- MODAL KAPATMA ---
 function modalKapat() { modal.style.display = "none"; }
-// Siyah alana tıklayınca kapat
 window.onclick = function(e) { if(e.target == modal) modal.style.display = "none"; }

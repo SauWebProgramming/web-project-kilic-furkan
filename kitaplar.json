@@ -4,7 +4,7 @@
         "title": "Temiz Kod (Clean Code)",
         "author": "Robert C. Martin",
         "price": 185.00,
-        "image": "https://m.media-amazon.com/images/I/41-sN-mzwKL.jpg",
+        "image": "https://covers.openlibrary.org/b/isbn/9780132350884-L.jpg",
         "category": "Yazılım",
         "desc": "Yazılım geliştirmede profesyonel kod yazma teknikleri ve prensipleri."
     },
@@ -13,7 +13,7 @@
         "title": "Yapay Zeka: Modern Yaklaşım",
         "author": "Stuart Russell",
         "price": 240.50,
-        "image": "https://m.media-amazon.com/images/I/81-NqL9qEEL._AC_UF1000,1000_QL80_.jpg",
+        "image": "https://covers.openlibrary.org/b/isbn/9780136042594-L.jpg",
         "category": "Teknoloji",
         "desc": "Yapay zeka alanındaki en kapsamlı ve kabul görmüş ders kitabı."
     },
@@ -22,7 +22,7 @@
         "title": "Simyacı",
         "author": "Paulo Coelho",
         "price": 85.00,
-        "image": "https://i.dr.com.tr/cache/600x600/0/0000000064038_1.jpg",
+        "image": "https://covers.openlibrary.org/b/isbn/9780062315007-L.jpg",
         "category": "Edebiyat",
         "desc": "Kendi kişisel menkıbesini arayan bir çobanın masalsı öyküsü."
     },
@@ -31,7 +31,7 @@
         "title": "JavaScript: The Good Parts",
         "author": "Douglas Crockford",
         "price": 120.00,
-        "image": "https://m.media-amazon.com/images/I/81kqrwS1nNL._AC_UF1000,1000_QL80_.jpg",
+        "image": "https://covers.openlibrary.org/b/isbn/9780596517748-L.jpg",
         "category": "Yazılım",
         "desc": "JavaScript dilinin en güçlü ve etkili özelliklerini anlatan klasik eser."
     },
@@ -40,7 +40,7 @@
         "title": "1984",
         "author": "George Orwell",
         "price": 60.00,
-        "image": "https://i.dr.com.tr/cache/600x600/0/0001921820087_1.jpg",
+        "image": "https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg",
         "category": "Edebiyat",
         "desc": "Distopik bir gelecekte totaliter bir rejimi ve gözetim toplumunu anlatır."
     },
@@ -49,7 +49,7 @@
         "title": "Algoritmalar",
         "author": "Robert Sedgewick",
         "price": 210.00,
-        "image": "https://m.media-amazon.com/images/I/61Pgdn8Ys-L._AC_UF1000,1000_QL80_.jpg",
+        "image": "https://covers.openlibrary.org/b/isbn/9780321573513-L.jpg",
         "category": "Yazılım",
         "desc": "Bilgisayar bilimlerinin temeli olan veri yapıları ve algoritmalar."
     },
@@ -58,7 +58,7 @@
         "title": "Sapiens",
         "author": "Yuval Noah Harari",
         "price": 150.00,
-        "image": "https://i.dr.com.tr/cache/600x600/0/0000000639943_1.jpg",
+        "image": "https://covers.openlibrary.org/b/isbn/9780062316097-L.jpg",
         "category": "Tarih",
         "desc": "İnsan türünün taş devrinden bugüne uzanan kısa ve çarpıcı tarihi."
     },
@@ -67,16 +67,16 @@
         "title": "Dune",
         "author": "Frank Herbert",
         "price": 195.00,
-        "image": "https://i.dr.com.tr/cache/600x600/0/0001928373001_1.jpg",
+        "image": "https://covers.openlibrary.org/b/isbn/9780441172719-L.jpg",
         "category": "Bilim Kurgu",
         "desc": "Uzak gelecekte, çöl gezegeni Arrakis'te geçen politik bilim kurgu şaheseri."
     },
     {
         "id": 9,
-        "title": "Head First Design Patterns",
+        "title": "Tasarım Desenleri",
         "author": "Eric Freeman",
         "price": 280.00,
-        "image": "https://m.media-amazon.com/images/I/81Ad2Gg82GL._AC_UF1000,1000_QL80_.jpg",
+        "image": "https://covers.openlibrary.org/b/isbn/9780596007126-L.jpg",
         "category": "Yazılım",
         "desc": "Yazılım tasarım desenlerini görsel ve akılda kalıcı bir dille öğretir."
     },
@@ -85,8 +85,188 @@
         "title": "Suç ve Ceza",
         "author": "Fyodor Dostoyevski",
         "price": 90.00,
-        "image": "https://i.dr.com.tr/cache/600x600/0/0000000064031_1.jpg",
+        "image": "https://covers.openlibrary.org/b/isbn/9780140449136-L.jpg",
         "category": "Klasik",
         "desc": "Vicdan azabı, ahlak ve suç kavramlarını sorgulayan dünya klasiği."
+    },
+    {
+        "id": 11,
+        "title": "Yüzüklerin Efendisi",
+        "author": "J.R.R. Tolkien",
+        "price": 350.00,
+        "image": "https://covers.openlibrary.org/b/isbn/9780544003415-L.jpg",
+        "category": "Fantastik",
+        "desc": "Orta Dünya'nın kaderini değiştirecek Tek Yüzük'ün yok edilme mücadelesi."
+    },
+    {
+        "id": 12,
+        "title": "Harry Potter ve Felsefe Taşı",
+        "author": "J.K. Rowling",
+        "price": 110.00,
+        "image": "https://covers.openlibrary.org/b/isbn/9780590353427-L.jpg",
+        "category": "Fantastik",
+        "desc": "Genç büyücü Harry Potter'ın Hogwarts'taki ilk yılı ve maceraları."
+    },
+    {
+        "id": 13,
+        "title": "Atomik Alışkanlıklar",
+        "author": "James Clear",
+        "price": 140.00,
+        "image": "https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg",
+        "category": "Kişisel Gelişim",
+        "desc": "Küçük değişikliklerin nasıl büyük sonuçlar doğuracağını anlatan rehber."
+    },
+    {
+        "id": 14,
+        "title": "Hızlı ve Yavaş Düşünme",
+        "author": "Daniel Kahneman",
+        "price": 175.00,
+        "image": "https://covers.openlibrary.org/b/isbn/9780374275631-L.jpg",
+        "category": "Psikoloji",
+        "desc": "Beynimizin karar verme mekanizmalarını inceleyen Nobel ödüllü çalışma."
+    },
+    {
+        "id": 15,
+        "title": "Kozmos",
+        "author": "Carl Sagan",
+        "price": 200.00,
+        "image": "https://covers.openlibrary.org/b/isbn/9780345331359-L.jpg",
+        "category": "Bilim",
+        "desc": "Evrenin sırlarını ve bilimin gelişimini herkesin anlayacağı dille anlatır."
+    },
+    {
+        "id": 16,
+        "title": "Steve Jobs",
+        "author": "Walter Isaacson",
+        "price": 220.00,
+        "image": "https://covers.openlibrary.org/b/isbn/9781451648539-L.jpg",
+        "category": "Biyografi",
+        "desc": "Apple'ın kurucusu Steve Jobs'un hayatını ve teknoloji devrimini anlatır."
+    },
+    {
+        "id": 17,
+        "title": "Sherlock Holmes",
+        "author": "Arthur Conan Doyle",
+        "price": 190.00,
+        "image": "https://covers.openlibrary.org/b/isbn/9780553212419-L.jpg",
+        "category": "Polisiye",
+        "desc": "Dünyanın en ünlü dedektifinin zeka dolu maceraları."
+    },
+    {
+        "id": 18,
+        "title": "Refactoring",
+        "author": "Martin Fowler",
+        "price": 300.00,
+        "image": "https://covers.openlibrary.org/b/isbn/9780201485677-L.jpg",
+        "category": "Yazılım",
+        "desc": "Mevcut kodun yapısını iyileştirme ve daha temiz hale getirme sanatı."
+    },
+    {
+        "id": 19,
+        "title": "Çavdar Tarlasında Çocuklar",
+        "author": "J.D. Salinger",
+        "price": 75.00,
+        "image": "https://covers.openlibrary.org/b/isbn/9780316769480-L.jpg",
+        "category": "Edebiyat",
+        "desc": "Ergenlik döneminin yabancılaşma ve isyan duygularını anlatan modern klasik."
+    },
+    {
+        "id": 20,
+        "title": "Fahrenheit 451",
+        "author": "Ray Bradbury",
+        "price": 80.00,
+        "image": "https://covers.openlibrary.org/b/isbn/9781451673319-L.jpg",
+        "category": "Bilim Kurgu",
+        "desc": "Kitapların yasak olduğu ve itfaiyecilerin yangın söndürmek yerine kitap yaktığı bir gelecek."
+    },
+    {
+        "id": 21,
+        "title": "Kendime Düşünceler",
+        "author": "Marcus Aurelius",
+        "price": 55.00,
+        "image": "https://covers.openlibrary.org/b/isbn/9780812968255-L.jpg",
+        "category": "Felsefe",
+        "desc": "Roma İmparatoru'nun Stoacı felsefe üzerine kişisel notları."
+    },
+    {
+        "id": 22,
+        "title": "Zengin Baba Yoksul Baba",
+        "author": "Robert Kiyosaki",
+        "price": 130.00,
+        "image": "https://covers.openlibrary.org/b/isbn/9781612680194-L.jpg",
+        "category": "Finans",
+        "desc": "Parayı yönetmek ve finansal özgürlük üzerine en çok satan kitaplardan biri."
+    },
+    {
+        "id": 23,
+        "title": "Pür Dikkat (Deep Work)",
+        "author": "Cal Newport",
+        "price": 115.00,
+        "image": "https://covers.openlibrary.org/b/isbn/9781455586691-L.jpg",
+        "category": "Kişisel Gelişim",
+        "desc": "Dikkat dağıtıcı bir dünyada odaklanma becerisini nasıl geliştirebilirsiniz?"
+    },
+    {
+        "id": 24,
+        "title": "Otostopçunun Galaksi Rehberi",
+        "author": "Douglas Adams",
+        "price": 160.00,
+        "image": "https://covers.openlibrary.org/b/isbn/9780345391803-L.jpg",
+        "category": "Bilim Kurgu",
+        "desc": "Uzayda geçen absürt ve eğlenceli bir macera serisi."
+    },
+    {
+        "id": 25,
+        "title": "Sefiller",
+        "author": "Victor Hugo",
+        "price": 100.00,
+        "image": "https://covers.openlibrary.org/b/isbn/9780451419439-L.jpg",
+        "category": "Klasik",
+        "desc": "Fransız Devrimi döneminde adalet, aşk ve kurtuluş arayışı."
+    },
+    {
+        "id": 26,
+        "title": "Martı Jonathan Livingston",
+        "author": "Richard Bach",
+        "price": 50.00,
+        "image": "https://covers.openlibrary.org/b/isbn/9780743278904-L.jpg",
+        "category": "Edebiyat",
+        "desc": "Sınırlarını aşmak ve özgürleşmek isteyen bir martının hikayesi."
+    },
+    {
+        "id": 27,
+        "title": "Kürk Mantolu Madonna",
+        "author": "Sabahattin Ali",
+        "price": 45.00,
+        "image": "https://covers.openlibrary.org/b/isbn/9789753638029-L.jpg",
+        "category": "Türk Edebiyatı",
+        "desc": "Unutulmaz bir aşk ve yalnızlık hikayesi."
+    },
+    {
+        "id": 28,
+        "title": "İnce Memed 1",
+        "author": "Yaşar Kemal",
+        "price": 120.00,
+        "image": "https://covers.openlibrary.org/b/isbn/9789750807145-L.jpg",
+        "category": "Türk Edebiyatı",
+        "desc": "Çukurova'da bir başkaldırı ve efsaneleşme öyküsü."
+    },
+    {
+        "id": 29,
+        "title": "Nutuk",
+        "author": "Mustafa Kemal Atatürk",
+        "price": 150.00,
+        "image": "https://covers.openlibrary.org/b/isbn/9789750829925-L.jpg",
+        "category": "Tarih",
+        "desc": "Türkiye Cumhuriyeti'nin kuruluş hikayesi ve Kurtuluş Savaşı."
+    },
+    {
+        "id": 30,
+        "title": "Küçük Prens",
+        "author": "Antoine de Saint-Exupéry",
+        "price": 60.00,
+        "image": "https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg",
+        "category": "Edebiyat",
+        "desc": "Büyüklere masallar: Dostluk, sevgi ve insan doğası üzerine."
     }
 ]

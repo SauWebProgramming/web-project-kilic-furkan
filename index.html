@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kitap Dünyası</title>
+    <title>Kitap Dünyası | Topluluk</title>
     
     <link rel="stylesheet" href="style.css">
-
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
@@ -14,12 +13,19 @@
 
     <header>
         <div class="container header-flex">
-            <h1>📚 Kitap Dünyası</h1>
-            
-            <div class="search-box">
-                <input type="text" id="aramaInput" placeholder="Kitap ara..." value="">
-                <button onclick="aramayiBaslat()">ARA</button>
+            <div class="logo" onclick="sayfaDegistir('forum')">
+                <h1>📚 Kitap Dünyası</h1>
             </div>
+
+            <nav class="nav-menu">
+                <button id="btn-magaza" class="nav-btn" onclick="magazayiSifirlaVeAc()">
+                    <span class="material-icons">store</span> Mağaza
+                </button>
+                
+                <button id="btn-forum" class="nav-btn aktif" onclick="sayfaDegistir('forum')">
+                    <span class="material-icons">forum</span> Forum
+                </button>
+            </nav>
 
             <button class="btn-favorilerim" onclick="favorileriGoster()">
                 <span class="material-icons">star</span> Favorilerim
@@ -27,27 +33,62 @@
         </div>
     </header>
 
-    <div id="loader" style="display:none; text-align:center;">Yükleniyor...</div>
+    <section id="magaza-sayfasi" class="sayfa-bolumu gizli">
+        <div class="container">
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="aramaInput" placeholder="Kitap veya yazar ara...">
+                    <button onclick="aramayiBaslat()">ARA</button>
+                </div>
+            </div>
 
-    <h2 id="liste-baslik" style="text-align:center; display:none;"></h2>
+            <h2 id="liste-baslik" style="text-align:center; display:none;"></h2>
+            <div id="loader" style="display:none; text-align:center;">Yükleniyor...</div>
+            <div id="kitap-listesi"></div>
+        </div>
+    </section>
 
-    <div id="kitap-listesi"></div>
+    <section id="forum-sayfasi" class="sayfa-bolumu">
+        <div class="container">
+            <div class="forum-baslik">
+                <h2>📖 Okurlar Meclisi</h2>
+                <p>Kitaplar hakkında tartış, yeni fikirler edin.</p>
+                <button onclick="magazayiSifirlaVeAc()" class="btn-hero-git">Kitapları Keşfet</button>
+            </div>
+
+            <div class="forum-grid">
+                <div id="forum-akisi"></div>
+
+                <aside class="forum-sidebar">
+                    <div class="sidebar-kart">
+                        <h3>🔥 Gündem</h3>
+                        <div class="konu-item">#BilimKurguKlasikleri <span>1.2k</span></div>
+                        <div class="konu-item">#DostoyevskiOkumaları <span>850</span></div>
+                        <div class="konu-item">#AyınKitabı <span>420</span></div>
+                    </div>
+
+                    <div class="sidebar-kart yesil-kart">
+                        <h3>💡 Haftanın Önerisi</h3>
+                        <p><strong>"Simyacı"</strong></p>
+                        <p>Hayallerinin peşinden gitmek isteyenler için harika bir başlangıç.</p>
+                        <button onclick="magazayaGitVeAc(3)" class="btn-sidebar-git">Kitabı İncele</button>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
 
     <div id="detay-modal" class="modal">
         <div class="modal-icerik">
-            
             <span class="kapat-btn" onclick="modalKapat()">&times;</span>
-
             <div class="modal-flex">
                 <img id="modal-resim" src="" alt="Kapak">
-                
                 <div class="modal-bilgi">
                     <h2 id="modal-baslik"></h2>
                     <h4 id="modal-yazar"></h4>
                     <p id="modal-kategori"></p>
                     <p id="modal-aciklama"></p>
                     <p id="modal-fiyat" class="fiyat"></p>
-
                     <button id="modal-fav-btn" class="btn-fav-islem" onclick="favoriIslemi()">
                         <span class="material-icons">favorite_border</span> Favorilere Ekle
                     </button>
