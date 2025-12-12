@@ -1,119 +1,138 @@
 /* --- GENEL AYARLAR --- */
 body {
-    font-family: 'Poppins', sans-serif; /* Yazı tipi */
-    background-color: #f0f2f5;          /* Arka plan rengi */
-    margin: 0; padding: 20px;           /* Kenar boşluklarını sıfırla */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern yazı tipi */
+    background-color: #f0f2f5; /* Arka plan rengi */
+    margin: 0; padding: 20px;  /* Kenar boşluklarını temizle */
 }
 
-/* --- ÜST MENÜ (HEADER) --- */
+/* --- HEADER (ÜST KISIM) --- */
 header {
-    text-align: center;      /* Ortala */
-    margin-bottom: 30px;     /* Alt boşluk */
+    background-color: white;   /* Beyaz arka plan */
+    padding: 20px;
+    border-radius: 10px;       /* Köşeleri yuvarla */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Hafif gölge */
+    margin-bottom: 30px;
 }
+
+/* Flexbox ile başlığı, aramayı ve favorileri yan yana diziyoruz */
+.header-flex {
+    display: flex;
+    justify-content: space-between; /* Aralarını aç */
+    align-items: center;            /* Dikey ortala */
+    flex-wrap: wrap;                /* Sığmazsa alta geç (Mobil uyum) */
+    gap: 15px;
+}
+
+h1 { margin: 0; color: #333; font-size: 24px; }
 
 /* --- ARAMA KUTUSU --- */
+.search-box { display: flex; gap: 10px; }
 input {
-    padding: 10px;           /* İç boşluk */
-    width: 250px;            /* Genişlik */
-    border-radius: 5px;      /* Yuvarlak köşe */
-    border: 1px solid #ccc;  /* Çerçeve */
+    padding: 10px; width: 200px;
+    border-radius: 5px; border: 1px solid #ccc;
 }
 
-/* --- BUTON --- */
+/* --- BUTON GENEL AYARLARI --- */
 button {
-    padding: 10px 20px;
-    background-color: #3498db; /* Mavi */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;          /* El işareti */
+    padding: 10px 15px; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer;
+    font-weight: bold; 
+    display: flex;       /* İkon ve yazıyı yan yana koymak için */
+    align-items: center; 
+    gap: 5px;            /* İkon ile yazı arasına boşluk */
 }
-button:hover { background-color: #2980b9; } /* Üzerine gelince koyulaş */
 
-/* --- KİTAP LİSTESİ (RAF) --- */
+/* Mavi 'Ara' Butonu */
+.search-box button { background-color: #3498db; color: white; }
+.search-box button:hover { background-color: #2980b9; }
+
+/* Sarı 'Favorilerim' Butonu */
+.btn-favorilerim { background-color: #f1c40f; color: #333; }
+.btn-favorilerim:hover { background-color: #d4ac0d; }
+
+/* --- KİTAP RAF --- */
 #kitap-listesi {
-    display: flex;            /* Yan yana diz */
-    flex-wrap: wrap;          /* Sığmayanı alta at */
-    justify-content: center;  /* Ortala */
-    gap: 20px;                /* Aralarına boşluk koy */
+    display: flex; 
+    flex-wrap: wrap;         /* Satıra sığmayanı alta at */
+    justify-content: center; /* Ortala */
+    gap: 20px; 
 }
 
 /* --- KİTAP KARTI --- */
 .kitap-karti {
-    background: white;        /* Beyaz kart */
-    width: 200px;             /* Genişlik */
-    border-radius: 8px;       
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Gölge */
-    padding: 10px;
-    display: flex;
-    flex-direction: column;   /* Alt alta diz */
-    text-align: center;
+    background: white; width: 200px; padding: 10px;
+    border-radius: 8px; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex; flex-direction: column; text-align: center;
+    transition: transform 0.2s;
 }
+/* Kartın üzerine gelince yukarı zıplasın */
+.kitap-karti:hover { transform: translateY(-5px); }
+
 .kitap-karti img {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;        /* Resmi kutuya sığdır */
-    border-radius: 4px;
+    width: 100%; height: 250px; object-fit: cover; border-radius: 4px;
 }
+
 .kitap-karti h3 {
-    font-size: 16px;
-    margin: 10px 0;
-    
-    /* Başlık 2 satırı geçerse kesmek için kodlar: */
-    display: -webkit-box;
-    -webkit-line-clamp: 2;    
-    line-clamp: 2;            /* VS Code uyarısını çözen kod */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    font-size: 16px; margin: 10px 0;
+    /* Uzun başlıkları 2 satırda kesip üç nokta (...) koyma kodu */
+    display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2;
+    -webkit-box-orient: vertical; overflow: hidden;
 }
-.fiyat {
-    color: green;
-    font-weight: bold;
-    margin-top: auto;         /* En alta it */
-}
-/* Karttaki 'İncele' butonu için stil */
+
+.fiyat { color: #27ae60; font-weight: bold; margin-top: auto; font-size: 18px; }
+
+/* İncele Butonu */
 .btn-incele {
-    margin-top: 10px;
-    background-color: #eee;
-    color: #333;
+    margin-top: 10px; background-color: #eee; color: #333; justify-content: center;
 }
 .btn-incele:hover { background-color: #ddd; }
 
-/* --- MODAL (AÇILIR PENCERE) STİLLERİ --- */
-/* Burası 'İncele'ye basınca açılacak siyah perde */
+/* --- MODAL (DETAY PENCERESİ) --- */
 .modal {
-    display: none;        /* BAŞLANGIÇTA GİZLİ */
-    position: fixed;      /* Ekrana sabitle */
-    z-index: 1000;        /* En önde dursun */
-    left: 0; top: 0;
+    display: none;        /* Başlangıçta gizli */
+    position: fixed;      /* Ekrana yapışık */
+    z-index: 1000;
+    left: 0; top: 0; 
     width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.6); /* Yarı saydam siyah */
+    background-color: rgba(0,0,0,0.6); /* Siyah perde */
 }
 
-/* Beyaz içerik kutusu */
 .modal-icerik {
-    background-color: white;
-    margin: 10% auto;     /* Ortala */
+    background-color: white; 
+    margin: 5% auto;      /* Ortala */
     padding: 20px;
-    width: 60%;           /* Genişlik */
-    border-radius: 10px;
+    width: 60%; 
+    border-radius: 10px; 
+    position: relative;
 }
 
-/* Kapatma Çarpısı (X) */
+/* Kapatma butonu */
 .kapat-btn {
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
+    float: right; font-size: 28px; cursor: pointer; color: #aaa;
 }
+.kapat-btn:hover { color: black; }
 
-/* Modal iç düzeni */
-.modal-flex {
-    display: flex;
-    gap: 20px;
-    align-items: start;
+/* İçerik düzeni */
+.modal-flex { display: flex; gap: 20px; margin-top: 10px; }
+#modal-resim { width: 200px; border-radius: 5px; }
+.modal-bilgi { flex: 1; display: flex; flex-direction: column; }
+
+/* Modal içindeki Favori Butonu (Kırmızı Çerçeveli) */
+.btn-fav-islem {
+    margin-top: 20px;
+    background-color: white;
+    border: 2px solid #e74c3c; /* Kırmızı çerçeve */
+    color: #e74c3c;            /* Kırmızı yazı */
+    justify-content: center;
 }
-#modal-resim {
-    width: 150px;
-    border-radius: 5px;
+/* Üzerine gelince içi kırmızı olsun */
+.btn-fav-islem:hover { background-color: #e74c3c; color: white; }
+
+/* Mobil Uyumluluk */
+@media screen and (max-width: 768px) {
+    .modal-icerik { width: 90%; margin: 20% auto; }
+    .modal-flex { flex-direction: column; align-items: center; }
 }

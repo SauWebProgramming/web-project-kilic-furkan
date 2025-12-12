@@ -6,19 +6,30 @@
     <title>Kitap Dünyası</title>
     
     <link rel="stylesheet" href="style.css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
 
     <header>
-        <h1>📚 Kitap Dünyası</h1>
-        <div class="search-box">
-            <input type="text" id="aramaInput" placeholder="Kitap ara..." value="">
-            <button onclick="aramayiBaslat()">ARA</button>
+        <div class="container header-flex">
+            <h1>📚 Kitap Dünyası</h1>
+            
+            <div class="search-box">
+                <input type="text" id="aramaInput" placeholder="Kitap ara..." value="">
+                <button onclick="aramayiBaslat()">ARA</button>
+            </div>
+
+            <button class="btn-favorilerim" onclick="favorileriGoster()">
+                <span class="material-icons">star</span> Favorilerim
+            </button>
         </div>
     </header>
 
     <div id="loader" style="display:none; text-align:center;">Yükleniyor...</div>
+
+    <h2 id="liste-baslik" style="text-align:center; display:none;"></h2>
 
     <div id="kitap-listesi"></div>
 
@@ -36,12 +47,15 @@
                     <p id="modal-kategori"></p>
                     <p id="modal-aciklama"></p>
                     <p id="modal-fiyat" class="fiyat"></p>
+
+                    <button id="modal-fav-btn" class="btn-fav-islem" onclick="favoriIslemi()">
+                        <span class="material-icons">favorite_border</span> Favorilere Ekle
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
     <script src="script.js"></script>
-
 </body>
 </html>
