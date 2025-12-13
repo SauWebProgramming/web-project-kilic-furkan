@@ -21,7 +21,6 @@
                 <button id="btn-magaza" class="nav-btn" onclick="magazayiSifirlaVeAc()">
                     <span class="material-icons">store</span> Mağaza
                 </button>
-                
                 <button id="btn-forum" class="nav-btn aktif" onclick="sayfaDegistir('forum')">
                     <span class="material-icons">forum</span> Forum
                 </button>
@@ -52,7 +51,7 @@
         <div class="container">
             <div class="forum-baslik">
                 <h2>📖 Okurlar Meclisi</h2>
-                <p>Kitaplar hakkında tartış, yeni fikirler edin.</p>
+                <p>Kitaplar hakkında tartış, yeni fikirler edin, topluluğa katıl.</p>
                 <button onclick="magazayiSifirlaVeAc()" class="btn-hero-git">Kitapları Keşfet</button>
             </div>
 
@@ -73,6 +72,38 @@
                         <p>Hayallerinin peşinden gitmek isteyenler için harika bir başlangıç.</p>
                         <button onclick="magazayaGitVeAc(3)" class="btn-sidebar-git">Kitabı İncele</button>
                     </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <section id="forum-detay-sayfasi" class="sayfa-bolumu gizli">
+        <div class="container">
+            <button class="btn-geri" onclick="sayfaDegistir('forum')">
+                <span class="material-icons">arrow_back</span> Tüm Tartışmalara Dön
+            </button>
+            
+            <div id="detay-konu-baslik" class="detay-baslik-alan"></div>
+            
+            <div class="detay-grid">
+                <div class="sol-kolon">
+                    <div id="ana-gonderi-alani"></div>
+
+                    <div class="yorumlar-alani">
+                        <h3>Yorumlar (<span id="yorum-sayisi">0</span>)</h3>
+                        <div id="yorum-listesi-container"></div>
+                    </div>
+
+                    <div class="yorum-gonder-kart">
+                        <h3>Cevap Yaz</h3>
+                        <input type="text" id="yorum-isim" placeholder="Adınız (Zorunlu)">
+                        <textarea id="yorum-metni" placeholder="Düşüncelerinizi buraya yazın..." rows="3"></textarea>
+                        <button onclick="yorumGonder()">Yorumu Gönder</button>
+                    </div>
+                </div>
+
+                <aside class="forum-sidebar">
+                    <div id="ilgili-kitap-kart" class="sidebar-kart"></div>
                 </aside>
             </div>
         </div>
