@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kitap Dünyası | Topluluk</title>
+    <title>Kitap Dünyası | Topluluk ve Mağaza</title>
     
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -21,6 +21,7 @@
                 <button id="btn-magaza" class="nav-btn" onclick="magazayiSifirlaVeAc()">
                     <span class="material-icons">store</span> Mağaza
                 </button>
+                
                 <button id="btn-forum" class="nav-btn aktif" onclick="sayfaDegistir('forum')">
                     <span class="material-icons">forum</span> Forum
                 </button>
@@ -34,15 +35,34 @@
 
     <section id="magaza-sayfasi" class="sayfa-bolumu gizli">
         <div class="container">
+            
             <div class="search-container">
                 <div class="search-box">
-                    <input type="text" id="aramaInput" placeholder="Kitap veya yazar ara...">
-                    <button onclick="aramayiBaslat()">ARA</button>
-                </div>
+                    <input type="text" id="aramaInput" placeholder="Kitap adı veya yazar ara..." onkeyup="aramayiBaslat()">
+                    </div>
             </div>
 
-            <h2 id="liste-baslik" style="text-align:center; display:none;"></h2>
+            <div class="kategori-container" id="kategori-butonlari">
+                <button class="cat-btn aktif" onclick="kategoriSec('Tümü', this)">Tümü</button>
+                <button class="cat-btn" onclick="kategoriSec('Yazılım', this)">Yazılım</button>
+                <button class="cat-btn" onclick="kategoriSec('Edebiyat', this)">Edebiyat</button>
+                <button class="cat-btn" onclick="kategoriSec('Bilim Kurgu', this)">Bilim Kurgu</button>
+                <button class="cat-btn" onclick="kategoriSec('Tarih', this)">Tarih</button>
+                <button class="cat-btn" onclick="kategoriSec('Klasik', this)">Klasik</button>
+                <button class="cat-btn" onclick="kategoriSec('Fantastik', this)">Fantastik</button>
+                <button class="cat-btn" onclick="kategoriSec('Kişisel Gelişim', this)">Kişisel Gelişim</button>
+                <button class="cat-btn" onclick="kategoriSec('Psikoloji', this)">Psikoloji</button>
+                <button class="cat-btn" onclick="kategoriSec('Bilim', this)">Bilim</button>
+                <button class="cat-btn" onclick="kategoriSec('Biyografi', this)">Biyografi</button>
+                <button class="cat-btn" onclick="kategoriSec('Polisiye', this)">Polisiye</button>
+                <button class="cat-btn" onclick="kategoriSec('Felsefe', this)">Felsefe</button>
+                <button class="cat-btn" onclick="kategoriSec('Türk Edebiyatı', this)">Türk Edebiyatı</button>
+            </div>
+
+            <h2 id="liste-baslik" style="text-align:center; display:none; margin-top:20px;"></h2>
+            
             <div id="loader" style="display:none; text-align:center;">Yükleniyor...</div>
+
             <div id="kitap-listesi"></div>
         </div>
     </section>
@@ -61,9 +81,10 @@
                 <aside class="forum-sidebar">
                     <div class="sidebar-kart">
                         <h3>🔥 Gündem</h3>
-                        <div class="konu-item">#BilimKurguKlasikleri <span>1.2k</span></div>
-                        <div class="konu-item">#DostoyevskiOkumaları <span>850</span></div>
-                        <div class="konu-item">#AyınKitabı <span>420</span></div>
+                        <div class="konu-item" onclick="forumDetayAc(2)">#BilimKurguKlasikleri <span>1.2k</span></div>
+                        <div class="konu-item" onclick="forumDetayAc(1)">#DostoyevskiOkumaları <span>850</span></div>
+                        <div class="konu-item" onclick="forumDetayAc(5)">#DistopyaGerçekleri <span>420</span></div>
+                        <div class="konu-item" onclick="forumDetayAc(8)">#SteveJobsVizyonu <span>310</span></div>
                     </div>
 
                     <div class="sidebar-kart yesil-kart">
@@ -113,7 +134,7 @@
         <div class="modal-icerik">
             <span class="kapat-btn" onclick="modalKapat()">&times;</span>
             <div class="modal-flex">
-                <img id="modal-resim" src="" alt="Kapak">
+                <img id="modal-resim" src="" alt="Kapak" onerror="this.src='https://placehold.co/300x450?text=Resim+Yok'">
                 <div class="modal-bilgi">
                     <h2 id="modal-baslik"></h2>
                     <h4 id="modal-yazar"></h4>

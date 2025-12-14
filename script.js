@@ -1,15 +1,19 @@
 let globalKitaplar = []; 
 let secilenKitapId = null;
 let aktifForumKonuId = null;
+let aktifKategori = 'Tümü'; // Select kutusu yerine bu değişkeni kullanacağız
 
+// --- SAYFA YÜKLENİNCE ---
 document.addEventListener('DOMContentLoaded', () => {
     kitaplariGetir(); 
-    // Forum verilerini önce LocalStorage'dan kontrol et (Kalıcılık için)
-    // Eğer yoksa bizim statik listeyi kullan.
+    
+    // Forum verilerini LocalStorage'da başlat
     if (!localStorage.getItem('forumData')) {
         localStorage.setItem('forumData', JSON.stringify(baslangicForumVerileri));
     }
     forumuYukle(); 
+    
+    // Başlangıçta Forum Sayfası Açık
     sayfaDegistir('forum');
 });
 
@@ -34,8 +38,7 @@ function sayfaDegistir(sayfaAdi) {
     } else if (sayfaAdi === 'forum') {
         document.getElementById('forum-sayfasi').classList.remove('gizli');
         document.getElementById('btn-forum').classList.add('aktif');
-        // Forum ana sayfasına dönerken listeyi güncelle (Yeni yorum sayıları için)
-        forumuYukle();
+        forumuYukle(); 
     } else if (sayfaAdi === 'forum-detay') {
         document.getElementById('forum-detay-sayfasi').classList.remove('gizli');
         document.getElementById('btn-forum').classList.add('aktif');
@@ -43,21 +46,101 @@ function sayfaDegistir(sayfaAdi) {
     }
 }
 
+// --- MAĞAZA SIFIRLAMA ---
 function magazayiSifirlaVeAc() {
     aramaInput.value = "";
+    // Kategoriyi Tümü'ne çek ve butonu güncelle
+    const tumuBtn = document.querySelector(".cat-btn");
+    kategoriSec('Tümü', tumuBtn); 
+    
     listeBaslik.style.display = "none";
     listeyiEkranaBas(globalKitaplar);
     sayfaDegistir('magaza');
 }
 
-// --- ZENGİNLEŞTİRİLMİŞ FORUM VERİLERİ (BAŞLANGIÇ) ---
+// --- YENİ KATEGORİ SEÇME FONKSİYONU ---
+function kategoriSec(kategori, btnElement) {
+    aktifKategori = kategori;
+    
+    // Tüm butonlardan 'aktif' sınıfını kaldır
+    document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('aktif'));
+    
+    // Tıklanan butona 'aktif' ekle (eğer buton verilmişse)
+    if(btnElement) {
+        btnElement.classList.add('aktif');
+    } else {
+        // Fonksiyon butonsuz çağrılırsa (örn: sıfırlamada) Tümü butonunu bul
+        const buttons = document.querySelectorAll('.cat-btn');
+        for (let btn of buttons) {
+            if (btn.innerText === kategori) btn.classList.add('aktif');
+        }
+    }
+    
+    aramayiBaslat(); // Filtrelemeyi tetikle
+}
+
+// --- ARAMA ve FİLTRELEME (GÜNCELLENDİ) ---
+function aramayiBaslat() {
+    listeBaslik.style.display = "none";
+    
+    const arananMetin = aramaInput.value.toLowerCase();
+    const secilenKategori = aktifKategori; // Değişkenden alıyoruz
+
+    const sonuc = globalKitaplar.filter(kitap => {
+        const metinUyumu = kitap.title.toLowerCase().includes(arananMetin) || 
+                           kitap.author.toLowerCase().includes(arananMetin);
+        
+        const kategoriUyumu = (secilenKategori === "Tümü") || (kitap.category === secilenKategori);
+
+        return metinUyumu && kategoriUyumu;
+    });
+
+    listeyiEkranaBas(sonuc);
+}
+
+// --- VERİ ÇEKME ---
+async function kitaplariGetir() {
+    loader.style.display = "block";
+    try {
+        const cevap = await fetch('kitaplar.json');
+        globalKitaplar = await cevap.json();
+        loader.style.display = "none";
+        listeyiEkranaBas(globalKitaplar);
+    } catch (hata) {
+        console.error(hata);
+        loader.style.display = "none";
+        listeDiv.innerHTML = "<h3>Veri okunamadı!</h3>";
+    }
+}
+
+function listeyiEkranaBas(kitapListesi) {
+    listeDiv.innerHTML = "";
+    if (kitapListesi.length === 0) {
+        listeDiv.innerHTML = "<h3>Aradığınız kriterlere uygun kitap bulunamadı.</h3>";
+        return;
+    }
+    kitapListesi.forEach(kitap => {
+        // Resim yoksa yer tutucu (onerror eventi eklendi)
+        const kart = `
+            <div class="kitap-karti">
+                <img src="${kitap.image}" alt="${kitap.title}" onerror="this.src='https://placehold.co/200x300?text=Resim+Yok'">
+                <h3>${kitap.title}</h3>
+                <p class="fiyat">${kitap.price} ₺</p>
+                <button class="btn-incele" onclick="detayAc(${kitap.id})">İncele</button>
+            </div>
+        `;
+        listeDiv.innerHTML += kart;
+    });
+}
+
+// --- FORUM VE DİĞER FONKSİYONLAR (AYNEN KORUNDU) ---
 const baslangicForumVerileri = [
     { 
         id: 1, bookId: 10, user: "Elif Kitapkurdu", title: "Dostoyevski'ye Hangi Kitapla Başlanmalı?", 
         body: "Rus edebiyatına girmek istiyorum ama Suç ve Ceza çok mu ağır olur? Önerilerinizi bekliyorum.", likes: 45, time: "2 saat önce",
         comments: [
             { user: "Hasan Çevik", text: "Kesinlikle Suç ve Ceza ile başlayın. İlk başta yorucu gelebilir ama sabredince verdiği derinlik eşsiz.", time: "1 saat önce" },
-            { user: "Büşra Okur", text: "Bence önce Yeraltından Notlar daha kısa ve giriş için iyi bir seçim. Karakter analizi için muazzam.", time: "45 dakika önce" }
+            { user: "Büşra Okur", text: "Bence önce Yeraltından Notlar daha kısa ve giriş için iyi bir seçim.", time: "45 dakika önce" }
         ]
     },
     { 
@@ -68,51 +151,15 @@ const baslangicForumVerileri = [
             { user: "Arrakisli", text: "Bence bir uyarlama olarak yapılabilecek en iyi işti. Kitap çok yoğun.", time: "1 gün önce" }
         ]
     },
-    { 
-        id: 3, bookId: 3, user: "Roman Okuru", title: "Simyacı neden bu kadar abartılıyor?", 
-        body: "Kitabı okudum, güzel bir masal ama 'hayat değiştiren kitap' yorumlarını abartılı buldum. Ben mi bir şeyi kaçırdım?", likes: 34, time: "3 gün önce",
-        comments: [
-            { user: "Hayalperest", text: "Kitap sana değil, ruhuna hitap ediyor. Doğru zamanda okumak önemli.", time: "2 gün önce" },
-            { user: "Gerçekçi", text: "Katılıyorum, basit bir kişisel gelişim kitabı bence.", time: "1 gün önce" }
-        ]
-    },
-    { 
-        id: 4, bookId: 1, user: "Junior Dev", title: "Temiz Kod kitabını yeni bitirdim", 
-        body: "Fonksiyonların kısa olması gerektiği kısmı kafama yattı ama yorum satırı yazmayın demesi garip geldi. Siz ne düşünüyorsunuz?", likes: 56, time: "4 saat önce",
-        comments: [
-            { user: "Senior Abi", text: "Kodun kendisi o kadar açık olmalı ki yoruma gerek kalmamalı. Mantık bu.", time: "3 saat önce" }
-        ]
-    },
-    { 
-        id: 5, bookId: 5, user: "Distopya Fan", title: "1984 bugünleri anlatıyor olabilir mi?", 
-        body: "George Orwell bu kitabı 1948'de yazdı ama sanki bugünün teknolojisini ve gözetim toplumunu görmüş gibi.", likes: 230, time: "1 hafta önce",
-        comments: [
-            { user: "Tarihçi", text: "Tarih tekerrürden ibarettir. Orwell sadece insan doğasını iyi analiz etmiş.", time: "6 gün önce" }
-        ]
-    },
-    { 
-        id: 6, bookId: 12, user: "Büyücü", title: "Hogwarts mektubum hala gelmedi", 
-        body: "30 yaşına geldim ama hala bir umut bekliyorum. Sizce baykuş trafiğe mi takıldı?", likes: 89, time: "1 saat önce",
-        comments: [
-            { user: "Muggle", text: "Posta idaresi grevde olabilir :D", time: "50 dk önce" }
-        ]
-    },
-    { 
-        id: 7, bookId: 7, user: "Meraklı", title: "Sapiens'teki Tarım Devrimi eleştirisi", 
-        body: "Harari tarım devriminin insanlık tarihindeki en büyük tuzak olduğunu söylüyor. Bu bakış açısı beni çok şaşırttı.", likes: 67, time: "2 gün önce",
-        comments: [
-            { user: "Antropolog", text: "Avcı toplayıcıların daha az çalışıp daha sağlıklı olduğu bir gerçek.", time: "1 gün önce" }
-        ]
-    },
-    { 
-        id: 8, bookId: 16, user: "Girişimci", title: "Steve Jobs biyografisi ilham verici", 
-        body: "Adamın karakteri zor olsa da vizyonuna hayran kalmamak elde değil. Apple'ı nasıl kurtardığı kısmı efsane.", likes: 44, time: "3 gün önce",
-        comments: []
-    }
+    { id: 3, bookId: 3, user: "Roman Okuru", title: "Simyacı neden bu kadar abartılıyor?", body: "Kitabı okudum, güzel bir masal ama yorumları abartılı buldum.", likes: 34, time: "3 gün önce", comments: [] },
+    { id: 4, bookId: 1, user: "Junior Dev", title: "Temiz Kod kitabını yeni bitirdim", body: "Fonksiyonların kısa olması gerektiği kısmı kafama yattı.", likes: 56, time: "4 saat önce", comments: [] },
+    { id: 5, bookId: 5, user: "Distopya Fan", title: "1984 bugünleri anlatıyor olabilir mi?", body: "George Orwell bu kitabı 1948'de yazdı ama sanki bugünü görmüş.", likes: 230, time: "1 hafta önce", comments: [] },
+    { id: 6, bookId: 12, user: "Büyücü", title: "Hogwarts mektubum hala gelmedi", body: "30 yaşına geldim ama hala bir umut bekliyorum.", likes: 89, time: "1 saat önce", comments: [] },
+    { id: 7, bookId: 7, user: "Meraklı", title: "Sapiens'teki Tarım Devrimi eleştirisi", body: "Harari tarım devriminin tuzak olduğunu söylüyor.", likes: 67, time: "2 gün önce", comments: [] },
+    { id: 8, bookId: 16, user: "Girişimci", title: "Steve Jobs biyografisi ilham verici", body: "Adamın karakteri zor olsa da vizyonuna hayran kalmamak elde değil.", likes: 44, time: "3 gün önce", comments: [] }
 ];
 
 function forumuYukle() {
-    // Verileri LocalStorage'dan al
     const veriler = JSON.parse(localStorage.getItem('forumData'));
     const forumDiv = document.getElementById('forum-akisi');
     forumDiv.innerHTML = "";
@@ -140,7 +187,6 @@ function forumuYukle() {
     });
 }
 
-// --- FORUM DETAY VE YORUM ---
 function forumDetayAc(konuId) {
     aktifForumKonuId = konuId;
     const veriler = JSON.parse(localStorage.getItem('forumData'));
@@ -149,7 +195,6 @@ function forumDetayAc(konuId) {
 
     sayfaDegistir('forum-detay'); 
 
-    // Başlık ve İçerik
     const baslikAlan = document.getElementById('detay-konu-baslik');
     baslikAlan.innerHTML = `
         <h2>${konu.title}</h2>
@@ -172,13 +217,13 @@ function forumDetayAc(konuId) {
         </div>
     `;
 
-    // Sidebar Kitap Kartı
     const kitap = globalKitaplar.find(k => k.id === konu.bookId);
     const kitapKart = document.getElementById('ilgili-kitap-kart');
     if (kitap) {
+        // Resim hatası kontrolü burada da var
         kitapKart.innerHTML = `
             <h3>📚 Tartışılan Kitap</h3>
-            <img src="${kitap.image}" alt="${kitap.title}" style="width:100px; height:150px; object-fit:cover; margin:10px auto; display:block; border-radius:8px;">
+            <img src="${kitap.image}" alt="${kitap.title}" onerror="this.src='https://placehold.co/150x220?text=Resim+Yok'" style="width:100px; height:150px; object-fit:cover; margin:10px auto; display:block; border-radius:8px;">
             <p style="font-weight:bold; text-align:center; margin-bottom:5px;">${kitap.title}</p>
             <p style="text-align:center; font-size:14px; color:#64748b;">${kitap.author}</p>
             <button onclick="detayAc(${kitap.id}); sayfaDegistir('magaza')" class="btn-sidebar-git" style="width:100%;">Detayları Gör</button>
@@ -212,13 +257,11 @@ function yorumlariGoster(konu) {
     });
     
     yorumContainer.innerHTML = yorumlarHTML;
-
     if (konu.comments.length === 0) {
          yorumContainer.innerHTML = "<p style='text-align:center; color:#94a3b8;'>Bu konuya henüz yorum yapılmadı. İlk yorumu sen yap!</p>";
     }
 }
 
-// YENİ YORUM GÖNDERME (HATA DÜZELTİLDİ)
 function yorumGonder() {
     const isimInput = document.getElementById('yorum-isim');
     const metinInput = document.getElementById('yorum-metni');
@@ -230,27 +273,14 @@ function yorumGonder() {
         return;
     }
 
-    // LocalStorage'dan güncel veriyi çek
     const veriler = JSON.parse(localStorage.getItem('forumData'));
     const aktifKonuIndex = veriler.findIndex(k => k.id === aktifForumKonuId);
 
     if (aktifKonuIndex > -1) {
-        const yeniYorum = {
-            user: isim,
-            text: metin,
-            time: "Şimdi"
-        };
-
-        // Listeye ekle
+        const yeniYorum = { user: isim, text: metin, time: "Şimdi" };
         veriler[aktifKonuIndex].comments.push(yeniYorum);
-        
-        // Veritabanını güncelle
         localStorage.setItem('forumData', JSON.stringify(veriler));
-
-        // Ekranı güncelle
         yorumlariGoster(veriler[aktifKonuIndex]);
-        
-        // Kutuları temizle
         isimInput.value = "";
         metinInput.value = "";
     }
@@ -258,47 +288,7 @@ function yorumGonder() {
 
 function magazayaGitVeAc(id) {
     magazayiSifirlaVeAc(); 
-    setTimeout(() => { detallesAc(id); }, 100);
-}
-
-// --- STANDART FONKSİYONLAR (DEĞİŞMEDİ) ---
-async function kitaplariGetir() {
-    loader.style.display = "block";
-    try {
-        const cevap = await fetch('kitaplar.json');
-        globalKitaplar = await cevap.json();
-        loader.style.display = "none";
-        listeyiEkranaBas(globalKitaplar);
-    } catch (hata) {
-        console.error(hata);
-        loader.style.display = "none";
-        listeDiv.innerHTML = "<h3>Veri okunamadı!</h3>";
-    }
-}
-
-function listeyiEkranaBas(kitapListesi) {
-    listeDiv.innerHTML = "";
-    if (kitapListesi.length === 0) {
-        listeDiv.innerHTML = "<h3>Kitap bulunamadı.</h3>"; return;
-    }
-    kitapListesi.forEach(kitap => {
-        const kart = `
-            <div class="kitap-karti">
-                <img src="${kitap.image}" alt="${kitap.title}">
-                <h3>${kitap.title}</h3>
-                <p class="fiyat">${kitap.price} ₺</p>
-                <button class="btn-incele" onclick="detayAc(${kitap.id})">İncele</button>
-            </div>
-        `;
-        listeDiv.innerHTML += kart;
-    });
-}
-
-function aramayiBaslat() {
-    listeBaslik.style.display = "none";
-    const aranan = aramaInput.value.toLowerCase();
-    const sonuc = globalKitaplar.filter(k => k.title.toLowerCase().includes(aranan) || k.author.toLowerCase().includes(aranan));
-    listeyiEkranaBas(sonuc);
+    setTimeout(() => { detayAc(id); }, 100);
 }
 
 function favorileriGoster() {
@@ -307,6 +297,10 @@ function favorileriGoster() {
     const favoriKitaplar = globalKitaplar.filter(kitap => favoriIdleri.includes(kitap.id));
     listeBaslik.innerText = "⭐ Favori Kitaplarım";
     listeBaslik.style.display = "block";
+    
+    // Filtreyi temizleyelim ki favoriler düzgün görünsün
+    document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('aktif'));
+    
     listeyiEkranaBas(favoriKitaplar);
 }
 

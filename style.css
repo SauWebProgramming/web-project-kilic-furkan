@@ -16,21 +16,56 @@ header { background-color: white; padding: 15px 0; box-shadow: 0 2px 10px rgba(0
 .gizli { display: none !important; }
 .sayfa-bolumu { padding: 30px 0; }
 
-/* --- MAĞAZA --- */
-.search-container { display: flex; justify-content: center; margin-bottom: 30px; }
-.search-box { display: flex; gap: 10px; }
-input { padding: 12px; width: 250px; border-radius: 8px; border: 1px solid #ccc; }
-.search-box button { padding: 10px 20px; background-color: #2563eb; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+/* --- MAĞAZA DÜZENİ --- */
+.search-container { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; }
+.search-box { width: 100%; max-width: 600px; }
+.search-box input { width: 100%; padding: 15px; border-radius: 50px; border: 1px solid #ccc; font-size: 16px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); outline: none; transition: border-color 0.3s; }
+.search-box input:focus { border-color: #2563eb; }
+
+/* --- YENİ KATEGORİ BUTONLARI (HAP TASARIM) --- */
+.kategori-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.cat-btn {
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    padding: 8px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    color: #64748b;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.cat-btn:hover {
+    background-color: #f1f5f9;
+    transform: translateY(-2px);
+}
+
+.cat-btn.aktif {
+    background-color: #2563eb;
+    color: white;
+    border-color: #2563eb;
+    box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+}
+
+/* --- KİTAP LİSTESİ --- */
 #kitap-listesi { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; }
 .kitap-karti { background: white; width: 220px; padding: 15px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; text-align: center; border: 1px solid #e2e8f0; transition: transform 0.2s; }
 .kitap-karti:hover { transform: translateY(-5px); border-color: #2563eb; }
-.kitap-karti img { width: 100%; height: 280px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
-.kitap-karti h3 { font-size: 16px; margin: 5px 0; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.kitap-karti img { width: 100%; height: 280px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; background-color: #eee; }
+.kitap-karti h3 { font-size: 16px; margin: 5px 0; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 40px; }
 .fiyat { color: #16a34a; font-weight: bold; font-size: 18px; margin-top: auto; }
 .btn-incele { margin-top: 10px; background-color: #f1f5f9; color: #333; border: none; padding: 8px; border-radius: 6px; cursor: pointer; font-weight: 600; }
 .btn-incele:hover { background-color: #e2e8f0; }
 
-/* --- FORUM --- */
+/* --- FORUM CSS'LERİ (ESKİSİYLE AYNI) --- */
 .forum-baslik { text-align: center; margin-bottom: 30px; background: linear-gradient(135deg, #4f46e5, #2563eb); color: white; padding: 40px; border-radius: 20px; }
 .forum-baslik h2 { margin: 0; font-size: 32px; }
 .btn-hero-git { margin-top: 15px; padding: 10px 20px; background: white; color: #2563eb; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
@@ -60,8 +95,6 @@ input { padding: 12px; width: 250px; border-radius: 8px; border: 1px solid #ccc;
 .detay-post-footer { padding-top: 10px; border-top: 1px solid #f1f5f9; display: flex; justify-content: flex-end; }
 .btn-kitap-incele-detay { background-color: #fca5a5; color: #ef4444; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 5px; }
 .btn-kitap-incele-detay:hover { background-color: #fecaca; }
-
-/* Yorumlar Tasarımı (Baloncuk Stili) */
 .yorumlar-alani { margin-top: 20px; }
 .yorum-kart { background: white; padding: 15px; border-radius: 12px; border: 1px solid #f1f5f9; margin-bottom: 15px; display: flex; gap: 15px; }
 .yorum-avatar { width: 40px; height: 40px; background-color: #e2e8f0; color: #475569; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; }
@@ -70,8 +103,6 @@ input { padding: 12px; width: 250px; border-radius: 8px; border: 1px solid #ccc;
 .yorum-header strong { font-size: 14px; color: #334155; }
 .yorum-header small { color: #94a3b8; font-size: 12px; }
 .yorum-text { color: #475569; font-size: 14px; line-height: 1.5; }
-
-/* Yorum Yazma Alanı */
 .yorum-gonder-kart { background: white; padding: 20px; border-radius: 16px; border: 1px solid #e2e8f0; margin-top: 30px; }
 .yorum-gonder-kart h3 { margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
 .yorum-gonder-kart input, .yorum-gonder-kart textarea { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ccc; box-sizing: border-box; resize: vertical; font-family: inherit; }
