@@ -6,9 +6,8 @@ Bu proje, Web Programlama 1 dersi "Seçenek 1" kapsamında geliştirilmiştir. M
 
 ## 🔗 Canlı Demo (Live Link)
 Projenin çalışan halini buradan inceleyebilirsiniz:
-**[BURAYA_GITHUB_PAGES_LINKIN_GELECEK]**
 
-*(Not: Projeyi yükledikten sonra GitHub Pages ayarını yapıp linki buraya ekleyeceğim.)*
+https://sauwebprogramming.github.io/web-project-kilic-furkan/
 
 ## 🎯 Projenin Amacı
 Kullanıcıların kitapları listeleyebildiği, kategoriye göre filtreleyebildiği, arama yapabildiği ve detayları inceleyebildiği interaktif bir arayüz sunmaktır.
